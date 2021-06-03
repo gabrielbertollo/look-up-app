@@ -7,6 +7,7 @@ class AppWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       initialRoute: '/',
+      theme: ThemeData(fontFamily: 'Exo'),
     ).modular();
   }
 }
