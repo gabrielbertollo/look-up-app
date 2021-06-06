@@ -21,13 +21,11 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
+  cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
-
-  cupertino_icons: ^1.0.2
   flutter_modular: ^3.2.2+1
   flutter_svg: ^0.22.0
-  lint: ^1.5.3
 
 dev_dependencies:
   flutter_test:
