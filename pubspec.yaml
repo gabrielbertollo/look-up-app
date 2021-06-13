@@ -22,9 +22,12 @@ environment:
 
 dependencies:
   cupertino_icons: ^1.0.2
+  dio: ^4.0.0
+  faker: ^2.0.0
   flutter:
     sdk: flutter
   flutter_modular: ^3.2.2+1
+  flutter_modular_test: ^1.0.1
   flutter_svg: ^0.22.0
 
 dev_dependencies:
