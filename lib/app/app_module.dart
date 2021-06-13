@@ -1,6 +1,6 @@
 import 'package:flutter_modular/flutter_modular.dart';
 
-import '../ui/pages/home/home_page.dart';
+import '../core/modules/home_module.dart';
 
 class AppModule extends Module {
   @override
@@ -8,6 +8,6 @@ class AppModule extends Module {
 
   @override
   final List<ModularRoute> routes = [
-    ChildRoute('/', child: (_, args) => HomePage()),
+    ModuleRoute('/home', module: HomeModule()),
   ];
 }
