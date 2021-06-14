@@ -1,4 +1,3 @@
-
 import '../../app/shared/paginated_result.dart';
 import '../../domain/entities/news_entity.dart';
 import '../../domain/repositories/home_repository.dart';
