@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'deserializer.dart';
 
 class PaginatedResult<T> {
-  List<dynamic>? data;
+  List<T> data;
   int? currentPage;
   String? path;
   int? from;
@@ -12,7 +12,7 @@ class PaginatedResult<T> {
   int? lastPage;
 
   PaginatedResult({
-    this.data,
+    required this.data,
     this.currentPage,
     this.path,
     this.from,
@@ -41,12 +41,12 @@ class PaginatedResult<T> {
   }
 
   bool get isLastPage =>
-      (lastPage != null) ? currentPage == lastPage : data!.length < perPage!;
+      (lastPage != null) ? currentPage == lastPage : data.length < perPage!;
 
   factory PaginatedResult.copy(PaginatedResult copy) => PaginatedResult(
         to: copy.to,
         from: copy.from,
-        data: copy.data,
+        data: List<T>.from(copy.data),
         perPage: copy.perPage,
         lastPage: copy.lastPage,
         currentPage: copy.currentPage,
