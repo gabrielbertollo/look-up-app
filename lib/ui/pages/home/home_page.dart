@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../../domain/entities/news_entity.dart';
 import '../../components/app_logo_component.dart';
+import 'home_state.dart';
 import 'widgets/appbar_menu_item_widget.dart';
 import 'widgets/news_item_widget.dart';
 
@@ -13,6 +17,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final HomeState state = Modular.get<HomeState>();
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -44,15 +49,34 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            body: Center(
-              child: ListView(
-                padding: const EdgeInsets.only(),
-                children: [
-                  NewsItemWidget(constraints: constraints),
-                  NewsItemWidget(constraints: constraints),
-                  NewsItemWidget(constraints: constraints),
-                ],
-              ),
+            body: ValueListenableBuilder<List<NewsEntity>>(
+              valueListenable: state.newsListenable,
+              builder: (context, news, widget) {
+                if (state.loading) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                return Center(
+                  child: SmartRefresher(
+                    controller: state.refreshController,
+                    enablePullUp: true,
+                    enablePullDown: false,
+                    onLoading: state.nextPage,
+                    child: ListView(
+                      padding: const EdgeInsets.only(),
+                      children: news
+                          .map(
+                            (e) => NewsItemWidget(
+                              news: e,
+                              constraints: constraints,
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ),
+                );
+              },
             ),
           );
         }
@@ -74,15 +98,34 @@ class _HomePageState extends State<HomePage> {
               })
             ],
           ),
-          body: Center(
-            child: ListView(
-              padding: const EdgeInsets.only(),
-              children: [
-                NewsItemWidget(constraints: constraints),
-                NewsItemWidget(constraints: constraints),
-                NewsItemWidget(constraints: constraints),
-              ],
-            ),
+          body: ValueListenableBuilder<List<NewsEntity>>(
+            valueListenable: state.newsListenable,
+            builder: (context, news, widget) {
+              if (state.loading) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              return Center(
+                child: SmartRefresher(
+                  controller: state.refreshController,
+                  enablePullUp: true,
+                  enablePullDown: true,
+                  onLoading: state.nextPage,
+                  child: ListView(
+                    padding: const EdgeInsets.only(),
+                    children: news
+                        .map(
+                          (e) => NewsItemWidget(
+                            news: e,
+                            constraints: constraints,
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
+              );
+            },
           ),
         );
       },
