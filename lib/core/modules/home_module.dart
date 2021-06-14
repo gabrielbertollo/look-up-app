@@ -12,7 +12,9 @@ class HomeModule extends Module {
   @override
   final List<Bind> binds = [
     Bind<HomeState>(
-      (i) => HomeState(),
+      (i) => HomeState(
+        getNewsUsecase: i.get(),
+      ),
     ),
     Bind<IHomeRepository>(
       (i) => HomeRepository(
