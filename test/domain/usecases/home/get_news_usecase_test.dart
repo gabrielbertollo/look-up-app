@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:look_up/app/shared/paginated_result.dart';
 import 'package:look_up/core/modules/home_module.dart';
 import 'package:look_up/data/datasources/mocks/home_external_datasource_mock.dart';
 import 'package:look_up/domain/entities/news_entity.dart';
@@ -27,15 +26,7 @@ void main() {
     test('Initial result', () async {
       final news = await getNewsUsecase();
 
-      expect(news, isA<PaginatedResult<NewsEntity>>());
-      expect(news.to, equals(1));
-      expect(news.from, equals(15));
-    });
-
-    test('Data past last page', () async {
-      final news = await getNewsUsecase(page: 4);
-
-      expect(news.data, isEmpty);
+      expect(news, isA<List<NewsEntity>>());
     });
   });
 }

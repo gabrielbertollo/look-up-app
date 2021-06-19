@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../../../app/shared/paginated_result.dart';
 import '../../../domain/entities/news_entity.dart';
 import '../../../domain/usecases/home/get_news_usecase.dart';
 
@@ -34,29 +33,39 @@ class HomeState extends ChangeNotifier {
     ]);
   }
 
-  Future<PaginatedResult<NewsEntity>> _getNews() async {
+  Future<List<NewsEntity>> _getNews() async {
     return await _getNewsUsecase(page: _page);
   }
 
   Future<void> nextPage() async {
-    if (_isLastPage) {
-      _refreshController.loadNoData();
-      return;
-    }
-
     try {
-      _page++;
-      final paginatedResult = await _getNews();
-
-      news.addAll(paginatedResult.data);
-      _isLastPage = paginatedResult.isLastPage;
+      news = await _getNews();
     } catch (e) {
       _error = true;
       rethrow;
     } finally {
-      _refreshController.loadComplete();
       _loading = false;
       newsListenable.notifyListeners();
     }
+
+    // if (_isLastPage) {
+    //   _refreshController.loadNoData();
+    //   return;
+    // }
+
+    // try {
+    //   _page++;
+    //   final paginatedResult = await _getNews();
+
+    //   news.addAll(paginatedResult.data);
+    //   _isLastPage = paginatedResult.isLastPage;
+    // } catch (e) {
+    //   _error = true;
+    //   rethrow;
+    // } finally {
+    //   _refreshController.loadComplete();
+    //   _loading = false;
+    //   newsListenable.notifyListeners();
+    // }
   }
 }

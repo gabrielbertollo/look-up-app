@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../domain/entities/news_entity.dart';
 import '../../components/app_logo_component.dart';
@@ -58,22 +57,16 @@ class _HomePageState extends State<HomePage> {
                   );
                 }
                 return Center(
-                  child: SmartRefresher(
-                    controller: state.refreshController,
-                    enablePullUp: true,
-                    enablePullDown: false,
-                    onLoading: state.nextPage,
-                    child: ListView(
-                      padding: const EdgeInsets.only(),
-                      children: news
-                          .map(
-                            (e) => NewsItemWidget(
-                              news: e,
-                              constraints: constraints,
-                            ),
-                          )
-                          .toList(),
-                    ),
+                  child: ListView(
+                    padding: const EdgeInsets.only(),
+                    children: news
+                        .map(
+                          (e) => NewsItemWidget(
+                            news: e,
+                            constraints: constraints,
+                          ),
+                        )
+                        .toList(),
                   ),
                 );
               },
@@ -107,22 +100,16 @@ class _HomePageState extends State<HomePage> {
                 );
               }
               return Center(
-                child: SmartRefresher(
-                  controller: state.refreshController,
-                  enablePullUp: true,
-                  enablePullDown: true,
-                  onLoading: state.nextPage,
-                  child: ListView(
-                    padding: const EdgeInsets.only(),
-                    children: news
-                        .map(
-                          (e) => NewsItemWidget(
-                            news: e,
-                            constraints: constraints,
-                          ),
-                        )
-                        .toList(),
-                  ),
+                child: ListView(
+                  padding: const EdgeInsets.only(),
+                  children: news
+                      .map(
+                        (e) => NewsItemWidget(
+                          news: e,
+                          constraints: constraints,
+                        ),
+                      )
+                      .toList(),
                 ),
               );
             },
