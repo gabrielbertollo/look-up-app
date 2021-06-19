@@ -47,9 +47,9 @@ class _NewsItemWidgetState extends State<NewsItemWidget> {
           child: AnimatedOpacity(
             opacity: backgroundOpacity,
             duration: const Duration(milliseconds: 200),
-            child: const Image(
-              image: AssetImage(
-                'lib/assets/test_image.jpg',
+            child: Image(
+              image: NetworkImage(
+                widget.news.imageUrl!,
               ),
               fit: BoxFit.cover,
             ),
