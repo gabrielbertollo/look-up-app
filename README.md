@@ -1,6 +1,6 @@
-# test
+# Look Up App
 
-A new Flutter project.
+A Flutter web app study project using clean architecture.
 
 ## Getting Started
 
