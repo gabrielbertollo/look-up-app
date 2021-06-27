@@ -28,5 +28,12 @@ void main() {
 
       expect(news, isA<List<NewsEntity>>());
     });
+
+    test('Pagination page size', () async {
+      int pageSize = 5;
+      final news = await getNewsUsecase(pageSize: pageSize);
+
+      expect(news.length, pageSize);
+    });
   });
 }
