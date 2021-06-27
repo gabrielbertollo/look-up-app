@@ -20,7 +20,6 @@ class HomeState extends ChangeNotifier {
 
   Future<void> _init() async {
     _pagingController.addPageRequestListener(_fetchPage);
-    _fetchPage(0);
   }
 
   Future<void> _fetchPage(int pageKey) async {
