@@ -1,25 +1,16 @@
 import 'package:flutter/cupertino.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../../../domain/entities/news_entity.dart';
 import '../../../domain/usecases/home/get_news_usecase.dart';
 
 class HomeState extends ChangeNotifier {
   final GetNewsUsecase _getNewsUsecase;
+  final PagingController<int, NewsEntity> _pagingController =
+      PagingController(firstPageKey: 0);
+  static const int _pageSize = 5;
 
-  late final newsListenable = ValueNotifier<List<NewsEntity>>([]);
-  final _refreshController = RefreshController();
-  int _page = 0;
-  bool _isLastPage = false;
-  bool _loading = true;
-  bool _error = false;
-
-  List<NewsEntity> get news => newsListenable.value;
-  RefreshController get refreshController => _refreshController;
-  int get page => _page;
-  bool get loading => _loading;
-
-  set news(List<NewsEntity> news) => newsListenable.value = news;
+  PagingController<int, NewsEntity> get pagingController => _pagingController;
 
   HomeState({
     required GetNewsUsecase getNewsUsecase,
@@ -28,44 +19,26 @@ class HomeState extends ChangeNotifier {
   }
 
   Future<void> _init() async {
-    await Future.wait([
-      nextPage(),
-    ]);
+    _pagingController.addPageRequestListener(_fetchPage);
+    _fetchPage(0);
   }
 
-  Future<List<NewsEntity>> _getNews() async {
-    return await _getNewsUsecase(page: _page);
-  }
-
-  Future<void> nextPage() async {
+  Future<void> _fetchPage(int pageKey) async {
     try {
-      news = await _getNews();
-    } catch (e) {
-      _error = true;
-      rethrow;
-    } finally {
-      _loading = false;
-      newsListenable.notifyListeners();
+      final newsItems = await _getNewsUsecase(
+        page: pageKey,
+        pageSize: _pageSize,
+      );
+      final _isLastPage = newsItems.length < _pageSize;
+
+      if (_isLastPage) {
+        _pagingController.appendLastPage(newsItems);
+      } else {
+        final nextPageKey = pageKey + newsItems.length;
+        _pagingController.appendPage(newsItems, nextPageKey);
+      }
+    } catch (error) {
+      _pagingController.error = error;
     }
-
-    // if (_isLastPage) {
-    //   _refreshController.loadNoData();
-    //   return;
-    // }
-
-    // try {
-    //   _page++;
-    //   final paginatedResult = await _getNews();
-
-    //   news.addAll(paginatedResult.data);
-    //   _isLastPage = paginatedResult.isLastPage;
-    // } catch (e) {
-    //   _error = true;
-    //   rethrow;
-    // } finally {
-    //   _refreshController.loadComplete();
-    //   _loading = false;
-    //   newsListenable.notifyListeners();
-    // }
   }
 }
