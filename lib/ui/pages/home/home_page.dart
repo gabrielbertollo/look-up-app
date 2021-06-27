@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../../../domain/entities/news_entity.dart';
+import '../../../theme.dart';
 import '../../components/app_logo_component.dart';
 import 'home_state.dart';
 import 'widgets/appbar_menu_item_widget.dart';
@@ -48,28 +50,20 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            body: ValueListenableBuilder<List<NewsEntity>>(
-              valueListenable: state.newsListenable,
-              builder: (context, news, widget) {
-                if (state.loading) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                return Center(
-                  child: ListView(
-                    padding: const EdgeInsets.only(),
-                    children: news
-                        .map(
-                          (e) => NewsItemWidget(
-                            news: e,
-                            constraints: constraints,
-                          ),
-                        )
-                        .toList(),
+            body: PagedListView<int, NewsEntity>(
+              padding: EdgeInsets.only(),
+              pagingController: state.pagingController,
+              builderDelegate: PagedChildBuilderDelegate<NewsEntity>(
+                itemBuilder: (context, item, index) => NewsItemWidget(
+                  news: item,
+                  constraints: constraints,
+                ),
+                firstPageProgressIndicatorBuilder: (_) => Center(
+                  child: CircularProgressIndicator(
+                    color: ThemeApp.primary,
                   ),
-                );
-              },
+                ),
+              ),
             ),
           );
         }
@@ -91,28 +85,24 @@ class _HomePageState extends State<HomePage> {
               })
             ],
           ),
-          body: ValueListenableBuilder<List<NewsEntity>>(
-            valueListenable: state.newsListenable,
-            builder: (context, news, widget) {
-              if (state.loading) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              return Center(
-                child: ListView(
-                  padding: const EdgeInsets.only(),
-                  children: news
-                      .map(
-                        (e) => NewsItemWidget(
-                          news: e,
-                          constraints: constraints,
-                        ),
-                      )
-                      .toList(),
+          body: RefreshIndicator(
+            onRefresh: () async => state.pagingController.refresh(),
+            color: ThemeApp.primary,
+            child: PagedListView<int, NewsEntity>(
+              padding: EdgeInsets.only(),
+              pagingController: state.pagingController,
+              builderDelegate: PagedChildBuilderDelegate<NewsEntity>(
+                itemBuilder: (context, item, index) => NewsItemWidget(
+                  news: item,
+                  constraints: constraints,
                 ),
-              );
-            },
+                firstPageProgressIndicatorBuilder: (_) => Center(
+                  child: CircularProgressIndicator(
+                    color: ThemeApp.primary,
+                  ),
+                ),
+              ),
+            ),
           ),
         );
       },
