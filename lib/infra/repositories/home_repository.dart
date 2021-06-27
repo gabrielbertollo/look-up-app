@@ -10,7 +10,13 @@ class HomeRepository implements IHomeRepository {
   }) : _homeExternalDatasource = homeExternalDatasource;
 
   @override
-  Future<List<NewsEntity>> getNews({int page = 1}) async {
-    return await _homeExternalDatasource.getNews(page: page);
+  Future<List<NewsEntity>> getNews({
+    required int page,
+    required int pageSize,
+  }) async {
+    return await _homeExternalDatasource.getNews(
+      page: page,
+      pageSize: pageSize,
+    );
   }
 }

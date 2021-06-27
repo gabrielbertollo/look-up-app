@@ -9,8 +9,9 @@ class GetNewsUsecase {
   }) : _homeRepository = homeRepository;
 
   Future<List<NewsEntity>> call({
-    int page = 1,
+    int page = 0,
+    int pageSize = 5,
   }) async {
-    return await _homeRepository.getNews(page: page);
+    return await _homeRepository.getNews(page: page, pageSize: pageSize);
   }
 }
