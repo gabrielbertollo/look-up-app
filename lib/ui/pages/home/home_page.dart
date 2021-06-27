@@ -6,6 +6,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../../domain/entities/news_entity.dart';
 import '../../../theme.dart';
 import '../../components/app_logo_component.dart';
+import '../../components/back_to_top_fab_component.dart';
 import 'home_state.dart';
 import 'widgets/appbar_menu_item_widget.dart';
 import 'widgets/news_item_widget.dart';
@@ -19,6 +20,33 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final HomeState state = Modular.get<HomeState>();
+  bool _showBackToTopButton = false;
+  ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    _scrollController = ScrollController()
+      ..addListener(() {
+        setState(() {
+          if (_scrollController.offset >= 1200) {
+            _showBackToTopButton = true;
+          } else {
+            _showBackToTopButton = false;
+          }
+        });
+      });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollToTop() => _scrollController.animateTo(0,
+      duration: Duration(milliseconds: 500), curve: Curves.fastOutSlowIn);
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -52,6 +80,7 @@ class _HomePageState extends State<HomePage> {
             ),
             body: PagedListView<int, NewsEntity>(
               padding: EdgeInsets.only(),
+              scrollController: _scrollController,
               pagingController: state.pagingController,
               builderDelegate: PagedChildBuilderDelegate<NewsEntity>(
                 itemBuilder: (context, item, index) => NewsItemWidget(
@@ -65,6 +94,9 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
+            floatingActionButton: _showBackToTopButton
+                ? BackToTopFabComponent(onPressed: _scrollToTop)
+                : null,
           );
         }
         return Scaffold(
@@ -89,6 +121,7 @@ class _HomePageState extends State<HomePage> {
             onRefresh: () async => state.pagingController.refresh(),
             color: ThemeApp.primary,
             child: PagedListView<int, NewsEntity>(
+              scrollController: _scrollController,
               padding: EdgeInsets.only(),
               pagingController: state.pagingController,
               builderDelegate: PagedChildBuilderDelegate<NewsEntity>(
@@ -104,6 +137,9 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
+          floatingActionButton: _showBackToTopButton
+              ? BackToTopFabComponent(onPressed: _scrollToTop)
+              : null,
         );
       },
     );
