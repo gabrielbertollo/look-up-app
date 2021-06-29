@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../domain/entities/news_entity.dart';
 
@@ -87,6 +88,16 @@ class _NewsItemWidgetState extends State<NewsItemWidget> {
                       ),
                       if (widget.constraints.maxWidth >= 800)
                         Text(widget.news.summary),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Text(
+                          DateFormat('MMMM d, y')
+                              .format(widget.news.publishedAt!),
+                          style: TextStyle(
+                            fontSize: 13,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
