@@ -56,11 +56,13 @@ class _NewsItemWidgetState extends State<NewsItemWidget> {
           ),
         ),
         Positioned(
-          top: widget.constraints.maxHeight / 1.3,
+          bottom: 50,
           left: widget.constraints.maxWidth >= 800 ? 120 : 0,
           child: ConstrainedBox(
             constraints: BoxConstraints(
-              maxWidth: widget.constraints.maxWidth / 1.5,
+              maxWidth: widget.constraints.maxWidth >= 800
+                  ? 500
+                  : widget.constraints.maxWidth / 1.2,
             ),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
@@ -83,7 +85,8 @@ class _NewsItemWidgetState extends State<NewsItemWidget> {
                           fontSize: 20,
                         ),
                       ),
-                      Text(widget.news.summary),
+                      if (widget.constraints.maxWidth >= 800)
+                        Text(widget.news.summary),
                     ],
                   ),
                 ),
