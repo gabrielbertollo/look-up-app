@@ -40,6 +40,7 @@ class AppLogoComponent extends StatelessWidget {
       logoAsset,
       height: size,
       color: color,
+      key: Key('app-logo-svg'),
     );
   }
 }
