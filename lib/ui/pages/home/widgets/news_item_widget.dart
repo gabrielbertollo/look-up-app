@@ -86,8 +86,7 @@ class _NewsItemWidgetState extends State<NewsItemWidget> {
                           fontSize: 20,
                         ),
                       ),
-                      if (widget.constraints.maxWidth >= 800)
-                        Text(widget.news.summary),
+                      Text(widget.news.summary),
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Text(
