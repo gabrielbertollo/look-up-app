@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../domain/entities/news_entity.dart';
+import 'read_article_button_widget.dart';
 
 class NewsItemWidget extends StatefulWidget {
   final NewsEntity news;
@@ -59,50 +60,61 @@ class _NewsItemWidgetState extends State<NewsItemWidget> {
         Positioned(
           bottom: 50,
           left: widget.constraints.maxWidth >= 800 ? 120 : 0,
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              maxWidth: widget.constraints.maxWidth >= 800
-                  ? 500
-                  : widget.constraints.maxWidth / 1.2,
-            ),
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              color: Colors.white.withOpacity(cardOpacity),
-              child: Padding(
-                padding: widget.constraints.maxWidth >= 800
-                    ? const EdgeInsets.all(8.0)
-                    : const EdgeInsets.fromLTRB(20.0, 8.0, 8.0, 8.0),
-                child: AnimatedOpacity(
-                  opacity: textOpacity,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxWidth: widget.constraints.maxWidth >= 800
+                      ? 500
+                      : widget.constraints.maxWidth / 1.2,
+                ),
+                child: AnimatedContainer(
                   duration: const Duration(milliseconds: 200),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(widget.news.newsSite.toUpperCase()),
-                      Text(
-                        widget.news.title,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        ),
-                      ),
-                      if (widget.constraints.maxWidth >= 800)
-                        Text(widget.news.summary),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Text(
-                          DateFormat('MMMM d, y')
-                              .format(widget.news.publishedAt!),
-                          style: TextStyle(
-                            fontSize: 13,
+                  color: Colors.white.withOpacity(cardOpacity),
+                  child: Padding(
+                    padding: widget.constraints.maxWidth >= 800
+                        ? const EdgeInsets.all(8.0)
+                        : const EdgeInsets.fromLTRB(20.0, 8.0, 8.0, 8.0),
+                    child: AnimatedOpacity(
+                      opacity: textOpacity,
+                      duration: const Duration(milliseconds: 200),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(widget.news.newsSite.toUpperCase()),
+                          Text(
+                            widget.news.title,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
                           ),
-                        ),
+                          Text(widget.news.summary),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Text(
+                              DateFormat('MMMM d, y')
+                                  .format(widget.news.publishedAt!),
+                              style: TextStyle(
+                                fontSize: 13,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ),
-            ),
+              if (widget.news.url != null)
+                ReadArticleButtonWidget(
+                  cardOpacity: cardOpacity,
+                  textOpacity: textOpacity,
+                  maxWidth: widget.constraints.maxWidth,
+                  newsUrl: widget.news.url!,
+                )
+            ],
           ),
         ),
       ],
