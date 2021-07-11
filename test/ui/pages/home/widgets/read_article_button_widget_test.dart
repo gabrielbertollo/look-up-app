@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:look_up/domain/entities/news_entity.dart';
 import 'package:look_up/infra/models/news_model.dart';
-import 'package:look_up/ui/pages/home/widgets/appbar_menu_item_widget.dart';
 import 'package:look_up/ui/pages/home/widgets/read_article_button_widget.dart';
 
 void main() {
