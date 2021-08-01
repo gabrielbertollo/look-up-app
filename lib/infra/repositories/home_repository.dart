@@ -13,10 +13,12 @@ class HomeRepository implements IHomeRepository {
   Future<List<NewsEntity>> getNews({
     required int page,
     required int pageSize,
+    String search = '',
   }) async {
     return await _homeExternalDatasource.getNews(
       page: page,
       pageSize: pageSize,
+      search: search,
     );
   }
 }

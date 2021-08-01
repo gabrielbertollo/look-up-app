@@ -11,9 +11,12 @@ class HomeExternalDatasource implements IHomeExternalDatasource {
   Future<List<NewsEntity>> getNews({
     required int page,
     required int pageSize,
+    String search = '',
   }) async {
-    final Response response =
-        await Dio().get('$url/articles?_limit=$pageSize&_start=$page');
+    final String searchUrl = search.isNotEmpty ? '&title_contains=$search' : '';
+
+    final Response response = await Dio()
+        .get('$url/articles?_limit=$pageSize&_start=$page$searchUrl');
 
     return (response.data as Iterable)
         .map((e) => NewsModel.fromJson(e))
