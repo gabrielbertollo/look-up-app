@@ -10,6 +10,8 @@ void main() {
           body: AppbarMenuItemWidget(
             key: Key('appbar-menu-item-widget'),
             text: 'text',
+            onPressed: (search) => null,
+            selectedItem: '',
           ),
         ),
       ),
