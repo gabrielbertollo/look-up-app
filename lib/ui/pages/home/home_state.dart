@@ -9,8 +9,20 @@ class HomeState extends ChangeNotifier {
   final PagingController<int, NewsEntity> _pagingController =
       PagingController(firstPageKey: 0);
   static const int _pageSize = 5;
+  String _search = '';
+  final selectedCompanyNotifier = ValueNotifier<String>('');
 
   PagingController<int, NewsEntity> get pagingController => _pagingController;
+  String get search => _search;
+  String get selectedCompany => selectedCompanyNotifier.value;
+
+  set selectedCompany(String selectedCompany) =>
+      selectedCompanyNotifier.value = selectedCompany;
+
+  set search(String search) {
+    _search = search;
+    _fetchPage(0);
+  }
 
   HomeState({
     required GetNewsUsecase getNewsUsecase,
@@ -27,6 +39,7 @@ class HomeState extends ChangeNotifier {
       final newsItems = await _getNewsUsecase(
         page: pageKey,
         pageSize: _pageSize,
+        search: search,
       );
       final _isLastPage = newsItems.length < _pageSize;
 
@@ -39,5 +52,22 @@ class HomeState extends ChangeNotifier {
     } catch (error) {
       _pagingController.error = error;
     }
+  }
+
+  void companySearch(String search) {
+    if (search == selectedCompany) return refresh();
+    _search = search;
+    selectedCompany = search;
+
+    _fetchPage(0);
+    _pagingController.refresh();
+  }
+
+  void refresh() {
+    _search = '';
+    selectedCompany = '';
+
+    _fetchPage(0);
+    _pagingController.refresh();
   }
 }

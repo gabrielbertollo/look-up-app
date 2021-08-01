@@ -63,15 +63,46 @@ class _HomePageState extends State<HomePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const AppLogoComponent(size: 40),
-                      Row(
-                        children: [
-                          const AppbarMenuItemWidget(text: 'SPACE X'),
-                          const AppbarMenuItemWidget(text: 'NASA'),
-                          const AppbarMenuItemWidget(text: 'BLUEORIGIN'),
-                          const AppbarMenuItemWidget(text: 'VIRGIN GALACTIC'),
-                          const AppbarMenuItemWidget(text: 'ESA'),
-                        ],
+                      MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: GestureDetector(
+                          onTap: state.refresh,
+                          child: AppLogoComponent(size: 40),
+                        ),
+                      ),
+                      ValueListenableBuilder<String>(
+                        valueListenable: state.selectedCompanyNotifier,
+                        builder: (context, selectedCompany, widget) {
+                          return Row(
+                            children: [
+                              AppbarMenuItemWidget(
+                                text: 'SPACEX',
+                                onPressed: state.companySearch,
+                                selectedItem: selectedCompany,
+                              ),
+                              AppbarMenuItemWidget(
+                                text: 'NASA',
+                                onPressed: state.companySearch,
+                                selectedItem: selectedCompany,
+                              ),
+                              AppbarMenuItemWidget(
+                                text: 'BLUE ORIGIN',
+                                onPressed: state.companySearch,
+                                selectedItem: selectedCompany,
+                              ),
+                              AppbarMenuItemWidget(
+                                text: 'VIRGIN GALACTIC',
+                                onPressed: state.companySearch,
+                                selectedItem: selectedCompany,
+                              ),
+                              AppbarMenuItemWidget(
+                                text: 'ESA',
+                                onPressed: state.companySearch,
+                                selectedItem: selectedCompany,
+                              ),
+                            ],
+                          );
+                        },
                       )
                     ],
                   ),
@@ -104,17 +135,82 @@ class _HomePageState extends State<HomePage> {
           appBar: AppBar(
             elevation: 0.0,
             backgroundColor: Colors.white.withOpacity(0.2),
-            title: const AppLogoComponent(),
+            title: MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: GestureDetector(
+                onTap: state.refresh,
+                child: AppLogoComponent(),
+              ),
+            ),
             actions: [
-              PopupMenuButton(itemBuilder: (context) {
-                return [
-                  const PopupMenuItem(child: Text('SPACE X')),
-                  const PopupMenuItem(child: Text('NASA')),
-                  const PopupMenuItem(child: Text('BLUEORIGIN')),
-                  const PopupMenuItem(child: Text('VIRGIN GALACTIC')),
-                  const PopupMenuItem(child: Text('ESA'))
-                ];
-              })
+              ValueListenableBuilder<String>(
+                valueListenable: state.selectedCompanyNotifier,
+                builder: (context, selectedCompany, widget) {
+                  return PopupMenuButton(
+                    onSelected: (value) =>
+                        state.companySearch(value.toString()),
+                    itemBuilder: (context) {
+                      return [
+                        PopupMenuItem(
+                          value: 'SPACEX',
+                          child: Text(
+                            'SPACEX',
+                            style: TextStyle(
+                              color: selectedCompany == 'SPACEX'
+                                  ? ThemeApp.primary
+                                  : Colors.black,
+                            ),
+                          ),
+                        ),
+                        PopupMenuItem(
+                          value: 'NASA',
+                          child: Text(
+                            'NASA',
+                            style: TextStyle(
+                              color: selectedCompany == 'NASA'
+                                  ? ThemeApp.primary
+                                  : Colors.black,
+                            ),
+                          ),
+                        ),
+                        PopupMenuItem(
+                          value: 'BLUE ORIGIN',
+                          child: Text(
+                            'BLUE ORIGIN',
+                            style: TextStyle(
+                              color: selectedCompany == 'BLUE ORIGIN'
+                                  ? ThemeApp.primary
+                                  : Colors.black,
+                            ),
+                          ),
+                        ),
+                        PopupMenuItem(
+                          value: 'VIRGIN GALACTIC',
+                          child: Text(
+                            'VIRGIN GALACTIC',
+                            style: TextStyle(
+                              color: selectedCompany == 'VIRGIN GALACTIC'
+                                  ? ThemeApp.primary
+                                  : Colors.black,
+                            ),
+                          ),
+                        ),
+                        PopupMenuItem(
+                          value: 'ESA',
+                          child: Text(
+                            'ESA',
+                            style: TextStyle(
+                              color: selectedCompany == 'ESA'
+                                  ? ThemeApp.primary
+                                  : Colors.black,
+                            ),
+                          ),
+                        ),
+                      ];
+                    },
+                  );
+                },
+              )
             ],
           ),
           body: RefreshIndicator(
