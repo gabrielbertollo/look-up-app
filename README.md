@@ -1,16 +1,9 @@
 # Look Up App
 
-A Flutter web app study project using clean architecture.
+Look Up App is a Flutter app study project made to learn more about the web functionalities of the framework, as well as API integration, pagination and multi device responsiveness.
 
-## Getting Started
+Check the latest release [here](https://gabrielbertollo.github.io/lookup/#/home/).
 
-This project is a starting point for a Flutter application.
+## API
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+For this project I used the public [Spaceflight News API](https://api.spaceflightnewsapi.net/v3/documentation). This API gathers data from several space news websites, including official company sources such as NASA and SPACEX, and lists in a very simple to use way.
