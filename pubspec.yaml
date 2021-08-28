@@ -53,7 +53,6 @@ flutter:
     - lib/assets/icons/logo_dark.svg
     - lib/assets/icons/logo_light.svg
     - lib/assets/icons/logo_monochrome.svg
-    - lib/assets/test_image.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
