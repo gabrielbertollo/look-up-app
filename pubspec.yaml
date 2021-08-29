@@ -34,8 +34,14 @@ dependencies:
   url_launcher: ^6.0.9
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.9.2
   flutter_test:
     sdk: flutter
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "lib/assets/app_icon.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -53,7 +59,6 @@ flutter:
     - lib/assets/icons/logo_dark.svg
     - lib/assets/icons/logo_light.svg
     - lib/assets/icons/logo_monochrome.svg
-    - lib/assets/test_image.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
